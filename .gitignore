@@ -1,0 +1,3 @@
+#Exclude Setting Folder
+.vscode/
+*.class
