@@ -4,10 +4,20 @@ public class MainApp {
 
         while (true) {
             beverageSeller.showProductList();
-            beverageSeller.showBalance();
-            beverageSeller.showUserMenuList();
 
-            beverageSeller.parsingUserAnswer(beverageSeller.scanUserTypingAnswer());
+            if(beverageSeller.mode == beverageSeller.USER_MODE)
+            {
+                beverageSeller.showBalance();
+                beverageSeller.showUserMenuList();
+                
+                beverageSeller.parsingUserAnswer(beverageSeller.scanUserTypingAnswer());
+            }
+            else if(beverageSeller.mode == beverageSeller.ADMIN_MODE)
+            {
+                beverageSeller.showAdminMenuList();
+
+                beverageSeller.parsingUserAnswer(beverageSeller.scanUserTypingAnswer());
+            }
             
 
         }
