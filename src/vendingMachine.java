@@ -5,6 +5,7 @@ public class VendingMachine {
     private ArrayList<Product> storage = new ArrayList<>();
     final int USER_MODE = 0;
     final int ADMIN_MODE = 1;
+    final int ADMIN_ENTER_BALANCE = 717942;
 
     int balance = 0;
     int income = 0;
@@ -52,20 +53,163 @@ public class VendingMachine {
 
     void parsingAdminAnswer(String userAnswer) {
         if (isEqual(userAnswer, AdminMenuList.CHANGE_MENU)) {
-
+            showMenuChangeMenu();
         } else if (isEqual(userAnswer, AdminMenuList.CHANGE_MENU_PRICE)) {
-
+            showMenuChangeMenuPrice();
         } else if (isEqual(userAnswer, AdminMenuList.ADD_MENU_STOCK)) {
-
+            showMenuAddMenuStock();
         } else if (isEqual(userAnswer, AdminMenuList.ADD_MENU)) {
-
+            showMenuAddMenu();
         } else if (isEqual(userAnswer, AdminMenuList.GET_ALL_INCOME)) {
-
+            showMenuGetAllIncome();
         } else if (isEqual(userAnswer, AdminMenuList.EXIT_ADMIN_MODE)) {
-
+            showMenuExitAdminMode();
         } else {
             System.out.println("잘못된 입력을 하셨습니다.\n");
         }
+    }
+    
+    void showMenuAddMenu(){
+        String name = null;
+        int stock = 0;
+        int price = 0;
+
+        System.out.println("메뉴 추가\n"); 
+
+        System.out.println("추가할 음료의 이름을 입력해주세요.\n");
+        name = scanUserTypingAnswer();
+
+        while(true)
+        {
+            try {
+                System.out.println("추가할 음료의 재고를 입력해주세요.\n");
+                stock = Integer.parseInt(scanUserTypingAnswer());
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 재고를 입력해주세요.\n");
+            }
+        }
+
+        while(true)
+        {
+            try {
+                System.out.println("추가할 음료의 가격을 입력해주세요.\n");
+                price = Integer.parseInt(scanUserTypingAnswer());
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 가격을 입력해주세요.\n");
+            }
+        }
+
+        addProdut(new Product(name,stock,price));
+    }
+
+    void showMenuChangeMenuPrice(){
+        int productNum = 0;
+    
+        System.out.println("메뉴 가격 변경\n");        
+
+        try {
+            System.out.println("변경할 음료를 선택해주세요. (숫자 입력)\n");
+            productNum = Integer.parseInt(scanUserTypingAnswer());
+            changeMenuPrice(productNum);
+        } catch (Exception e) {
+            System.out.println("잘못된 입력을 하셨습니다. 제품의 List를 다시 한번 확인해주세요\n");
+        }
+    }
+
+    void changeMenuPrice(int productNum){
+
+        while(true){
+            try {
+                System.out.println(storage.get(productNum - 1).name + " 의 가격을 얼마로 변경 하시겠습니까? \n");
+                storage.get(productNum - 1).price = Integer.parseInt(scanUserTypingAnswer());
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 가격을 입력해주세요.\n");
+            }
+        }
+    }
+
+    void showMenuChangeMenu(){
+        int productNum = 0;
+
+        System.out.println("메뉴 변경\n");        
+
+        try {
+            System.out.println("변경할 음료를 선택해주세요. (숫자 입력)\n");
+            productNum = Integer.parseInt(scanUserTypingAnswer());
+            changeMenu(productNum);
+        } catch (Exception e) {
+            System.out.println("잘못된 입력을 하셨습니다. 제품의 List를 다시 한번 확인해주세요\n");
+        }
+    }
+
+    void changeMenu(int productNum){
+        System.out.println(storage.get(productNum-1).name + " 의 이름을 무엇으로 변경 하시겠습니까? \n");
+        storage.get(productNum-1).name = scanUserTypingAnswer();
+
+        while(true){
+            try {
+                System.out.println(storage.get(productNum - 1).name + " 의 가격을 얼마로 변경 하시겠습니까? \n");
+                storage.get(productNum - 1).price = Integer.parseInt(scanUserTypingAnswer());
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 가격을 입력해주세요.\n");
+            }
+        }
+
+        while(true){
+            try {
+                System.out.println(storage.get(productNum - 1).name + "의 재고를 몇개로 변경 하시겠습니까? \n");
+                storage.get(productNum - 1).stock = Integer.parseInt(scanUserTypingAnswer());
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 재고를 입력해주세요.\n");
+            }
+        }
+    }
+
+    void showMenuAddMenuStock(){
+        int productNum = 0;
+
+        System.out.println("재고 추가 메뉴\n");     
+
+        try {
+            System.out.println("변경할 음료를 선택해주세요. (숫자 입력)\n");
+            productNum = Integer.parseInt(scanUserTypingAnswer());
+            addStockOfProduct(productNum);
+        } catch (Exception e) {
+            System.out.println("잘못된 입력을 하셨습니다. 제품의 List를 다시 한번 확인해주세요\n");
+        }
+    }
+
+    int getOriginalStock(int productNum){
+        return storage.get(productNum-1).stock;
+    }
+    
+    void addStockOfProduct(int productNum){
+        int stockNumToAdd = 0;
+
+        while(true){
+            try {
+                System.out.println(storage.get(productNum - 1).name + " 의 재고를 얼마나 추가 하시겠습니까? (숫자 입력)\n");
+                stockNumToAdd = Integer.parseInt(scanUserTypingAnswer());
+                storage.get(productNum-1).stock += stockNumToAdd;
+                break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력을 하셨습니다. 다시 재고를 입력해주세요.\n");
+            }
+        }
+    }
+
+    void showMenuExitAdminMode(){
+        System.out.println("관리자 메뉴를 나갑니다.\n");
+        mode = USER_MODE;
+    }
+
+    void showMenuGetAllIncome(){
+        System.out.println("지금까지 총 수익 : "+ income);
     }
 
     void showMenuAddBalance() {
@@ -78,7 +222,7 @@ public class VendingMachine {
             System.out.println("잘못된 입력을 하셨습니다.\n");
             balanceToAdd = 0;
         }
-        if (balanceToAdd == 717942) {
+        if (balanceToAdd == ADMIN_ENTER_BALANCE) {
             mode = ADMIN_MODE;
         }
         else{

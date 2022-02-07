@@ -16,7 +16,7 @@ public class MainApp {
             {
                 beverageSeller.showAdminMenuList();
 
-                beverageSeller.parsingUserAnswer(beverageSeller.scanUserTypingAnswer());
+                beverageSeller.parsingAdminAnswer(beverageSeller.scanUserTypingAnswer());
             }
             
 
